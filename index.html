@@ -10,7 +10,6 @@
         background-color: black;
         height: 100vh;
       }
-
       #main_canvas {
         width: 600px;
         height: 600px;
@@ -34,7 +33,6 @@
     const tile_height = Math.round(canvas.height/size)
     ctx.imageSmoothingEnabled = false
     let grid = []
-
     for(var i = 0; i < size; i++) {
       let row = []
       for(var j = 0; j < size; j++) {
@@ -47,27 +45,22 @@
       }
       grid.push(row)
     }
-
     printGrid(grid)
-
     function printGrid(g) {
       for(var i = 0; i < size; i++) {
         for(var j = 0; j < size; j++) {
           let x = i * tile_width, y = j * tile_height
           let r1 = Math.floor(Math.random()*256)
-
           if(g[i][j]) {
             ctx.fillStyle = 'hsla(' + r1 + ', 100%, 50%, 1)'
           }
           else {
             ctx.fillStyle = 'black'
           }
-
           ctx.fillRect(x, y, tile_width, tile_height)
         }
       }
     }
-
     function nextGen(g) {
       let newGrid = []
       for(var i = 0; i < size; i++) {
@@ -98,37 +91,20 @@
         }
         newGrid.push(newRow)
       }
-      let p = 0
       for(var i = 0; i < size; i++) {
         for(var j = 0; j < size; j++) {
-          if(grid[i][j] !== newGrid[i][j]) {
-            p++ 
-          }
+          grid[i][j] = newGrid[i][j]
         }
       }
-      if(p > 0) {
-        reset() 
-      }
-      else {
-         printGrid(newGrid)
-      
-        for(var i = 0; i < size; i++) {
-          for(var j = 0; j < size; j++) {
-            grid[i][j] = newGrid[i][j]
-          }
-        }
-        main()
-      }
+      printGrid(newGrid)
+      main()
     }
-
     function main() {
       setTimeout(function() {
         nextGen(grid)
       }, 50)
     }
-
     main()
-
     function reset() {
       grid = []
       for(var i = 0; i < size; i++) {
@@ -143,7 +119,6 @@
         }
         grid.push(row)
       }
-      main()
     }
   </script>
 </html>
