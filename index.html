@@ -98,13 +98,27 @@
         }
         newGrid.push(newRow)
       }
+      let p = 0
       for(var i = 0; i < size; i++) {
         for(var j = 0; j < size; j++) {
-          grid[i][j] = newGrid[i][j]
+          if(grid[i][j] !== newGrid[i][j]) {
+            p++ 
+          }
         }
       }
-      printGrid(newGrid)
-      main()
+      if(p > 0) {
+        reset() 
+      }
+      else {
+         printGrid(newGrid)
+      
+        for(var i = 0; i < size; i++) {
+          for(var j = 0; j < size; j++) {
+            grid[i][j] = newGrid[i][j]
+          }
+        }
+        main()
+      }
     }
 
     function main() {
@@ -129,6 +143,7 @@
         }
         grid.push(row)
       }
+      main()
     }
   </script>
 </html>
