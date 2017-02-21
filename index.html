@@ -11,11 +11,13 @@
         height: 100vh;
         margin: 0;
       }
+
       #main_canvas {
-        width: 600px;
-        height: 600px;
+        width: 800px;
+        height: 800px;
         background-color: white;
         box-shadow: 0 0 20px white;
+        margin: 0;
       }
     </style>
   </head>
@@ -26,18 +28,23 @@
     function mod(n, m) {
       return ((n % m) + m) % m;
     }
+
     const rel = [[0,1], [1,0], [1,1], [0,-1], [-1,0], [-1,1], [1,-1], [-1,-1]]
-    let size = 75
+    let size = 100
     const canvas = document.getElementById("main_canvas")
+    const spawn_rate = 0.6
+    canvas.width = 800
+    canvas.height = 800
     const ctx = canvas.getContext('2d');
     const tile_width = Math.round(canvas.width/size)
     const tile_height = Math.round(canvas.height/size)
     ctx.imageSmoothingEnabled = false
     let grid = []
+
     for(var i = 0; i < size; i++) {
       let row = []
       for(var j = 0; j < size; j++) {
-        if(Math.random() > 0.6) {
+        if(Math.random() > spawn_rate) {
           row.push(true)
         }
         else {
@@ -46,22 +53,39 @@
       }
       grid.push(row)
     }
+
     printGrid(grid)
+
     function printGrid(g) {
       for(var i = 0; i < size; i++) {
         for(var j = 0; j < size; j++) {
           let x = i * tile_width, y = j * tile_height
-          let r1 = Math.floor(Math.random()*256)
+          let r1 = Math.random()
+          let r2 = 270 + Math.floor(Math.random()*30)
+          let r3 = Math.floor(Math.random()*60)
+          let r4 = 200 + Math.floor(Math.random()*50)
           if(g[i][j]) {
-            ctx.fillStyle = 'hsla(' + r1 + ', 100%, 50%, 1)'
+            let a = null
+            if(r1 > 0.5) {
+              a = r2
+            }
+            else if(r1 > 0.3 && r1 < 0.66){
+              a = r3
+            }
+            else {
+              a = r4
+            }
+            ctx.fillStyle = 'hsla(' + a + ', 100%, 50%, 1)'
           }
           else {
             ctx.fillStyle = 'black'
           }
+
           ctx.fillRect(x, y, tile_width, tile_height)
         }
       }
     }
+
     function nextGen(g) {
       let newGrid = []
       for(var i = 0; i < size; i++) {
@@ -74,7 +98,7 @@
             }
           }
           if(g[i][j]) {
-            if(z === 2 || z === 3) {
+            if(z === 3 || z === 2) {
               newRow.push(true)
             }
             else {
@@ -100,18 +124,21 @@
       printGrid(newGrid)
       main()
     }
+
     function main() {
       setTimeout(function() {
         nextGen(grid)
-      }, 50)
+      }, 10)
     }
+
     main()
+
     function reset() {
       grid = []
       for(var i = 0; i < size; i++) {
         let row = []
         for(var j = 0; j < size; j++) {
-          if(Math.random() > 0.6) {
+          if(Math.random() > spawn_rate) {
             row.push(true)
           }
           else {
