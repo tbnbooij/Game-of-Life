@@ -13,10 +13,10 @@
       }
 
       #main_canvas {
-        width: 800px;
-        height: 800px;
+        width: 700px;
+        height: 700px;
         background-color: white;
-        box-shadow: 0 0 20px white;
+        border: solid white 5px;
         margin: 0;
       }
     </style>
@@ -24,129 +24,5 @@
   <body>
     <canvas id="main_canvas"></canvas>
   </body>
-  <script>
-    function mod(n, m) {
-      return ((n % m) + m) % m;
-    }
-
-    const rel = [[0,1], [1,0], [1,1], [0,-1], [-1,0], [-1,1], [1,-1], [-1,-1]]
-    let size = 100
-    const canvas = document.getElementById("main_canvas")
-    const spawn_rate = 0.6
-    canvas.width = 800
-    canvas.height = 800
-    const ctx = canvas.getContext('2d');
-    const tile_width = Math.round(canvas.width/size)
-    const tile_height = Math.round(canvas.height/size)
-    ctx.imageSmoothingEnabled = false
-    let grid = []
-
-    for(var i = 0; i < size; i++) {
-      let row = []
-      for(var j = 0; j < size; j++) {
-        if(Math.random() > spawn_rate) {
-          row.push(true)
-        }
-        else {
-          row.push(false)
-        }
-      }
-      grid.push(row)
-    }
-
-    printGrid(grid)
-
-    function printGrid(g) {
-      for(var i = 0; i < size; i++) {
-        for(var j = 0; j < size; j++) {
-          let x = i * tile_width, y = j * tile_height
-          let r1 = Math.random()
-          let r2 = 270 + Math.floor(Math.random()*30)
-          let r3 = Math.floor(Math.random()*60)
-          let r4 = 200 + Math.floor(Math.random()*50)
-          if(g[i][j]) {
-            let a = null
-            if(r1 > 0.5) {
-              a = r2
-            }
-            else if(r1 > 0.3 && r1 < 0.66){
-              a = r3
-            }
-            else {
-              a = r4
-            }
-            ctx.fillStyle = 'hsla(' + a + ', 100%, 50%, 1)'
-          }
-          else {
-            ctx.fillStyle = 'black'
-          }
-
-          ctx.fillRect(x, y, tile_width, tile_height)
-        }
-      }
-    }
-
-    function nextGen(g) {
-      let newGrid = []
-      for(var i = 0; i < size; i++) {
-        let newRow = []
-        for(var j = 0; j < size; j++) {
-          let z = 0
-          for(var k = 0; k < rel.length; k++) {
-            if(g[mod(i+rel[k][0], size)][mod(j+rel[k][1], size)]) {
-              z++
-            }
-          }
-          if(g[i][j]) {
-            if(z === 3 || z === 2) {
-              newRow.push(true)
-            }
-            else {
-              newRow.push(false)
-            }
-          }
-          else {
-            if(z === 3) {
-              newRow.push(true)
-            }
-            else {
-              newRow.push(false)
-            }
-          }
-        }
-        newGrid.push(newRow)
-      }
-      for(var i = 0; i < size; i++) {
-        for(var j = 0; j < size; j++) {
-          grid[i][j] = newGrid[i][j]
-        }
-      }
-      printGrid(newGrid)
-      main()
-    }
-
-    function main() {
-      setTimeout(function() {
-        nextGen(grid)
-      }, 10)
-    }
-
-    main()
-
-    function reset() {
-      grid = []
-      for(var i = 0; i < size; i++) {
-        let row = []
-        for(var j = 0; j < size; j++) {
-          if(Math.random() > spawn_rate) {
-            row.push(true)
-          }
-          else {
-            row.push(false)
-          }
-        }
-        grid.push(row)
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </html>
