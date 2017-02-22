@@ -22,6 +22,7 @@ ctx.imageSmoothingEnabled = false
 let grid = []
 let last_grid = []
 const base_random = Math.floor(Math.random() * 300)
+document.getElementById("main_canvas").style.boxShadow = "0px 0px 50px hsla(" + (base_random + 25) + ", 100%, 50%, 1)";
 
 // Create the initial grid
 for(var i = 0; i < size; i++) {
