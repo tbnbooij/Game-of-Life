@@ -21,6 +21,7 @@ const tile_height = Math.round(canvas.height/size)
 ctx.imageSmoothingEnabled = false
 let grid = []
 let last_grid = []
+const base_random = Math.floor(Math.random() * 300)
 
 // Create the initial grid
 for(var i = 0; i < size; i++) {
@@ -42,7 +43,7 @@ printGrid(grid)
 // This function paints a cell in the grid
 function paintCell(i, j, grid) {
   let x = i * tile_width, y = j * tile_height
-  let r = 0 + Math.floor(Math.random()*50)
+  let r = base_random + Math.floor(Math.random()*50)
   if(grid[i][j]) {
     ctx.fillStyle = 'hsla(' + r + ', 100%, 50%, 1)'
   }
